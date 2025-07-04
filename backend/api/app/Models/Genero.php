@@ -4,28 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Model
+class Genero extends Model
 {
     use HasFactory;
-
 
     protected $table = 'genero';
 
     protected $fillable = [
-        'nome',
-        'data_nasc',
-        'ativo',
-        'genero_id',
+        'nome'
     ];
 
     protected $hidden = [
         'created_at', 'updated_at'
     ];
 
-    public function user():HasOne
+    public function user():HasMany
     {
-        return $this->hasOne(Genero::class);
+        return $this->hasMany(User::class);
     }
 }
