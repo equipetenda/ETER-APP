@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Genero extends Model
+class Postagem extends Model
 {
     use HasFactory;
 
-    protected $table = 'genero';
+    protected $table = 'postagem';
 
     protected $fillable = [
-        'nome',
+        'texto',
+        'usuario_id',
     ];
 
     protected $hidden = [
@@ -21,8 +22,8 @@ class Genero extends Model
         'updated_at',
     ];
 
-    public function usuarios(): HasMany
+    public function usuario(): BelongsTo
     {
-        return $this->hasMany(Usuario::class, 'genero_id');
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 }

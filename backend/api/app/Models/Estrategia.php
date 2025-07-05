@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Genero extends Model
+class Estrategia extends Model
 {
     use HasFactory;
 
-    protected $table = 'genero';
+    protected $table = 'estrategia';
 
     protected $fillable = [
         'nome',
@@ -21,8 +21,8 @@ class Genero extends Model
         'updated_at',
     ];
 
-    public function usuarios(): HasMany
+    public function vontadesFumar(): HasMany
     {
-        return $this->hasMany(Usuario::class, 'genero_id');
+        return $this->hasMany(VontadeFumar::class, 'estrategia_id');
     }
 }
