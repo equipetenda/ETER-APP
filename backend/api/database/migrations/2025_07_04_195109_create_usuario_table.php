@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('usuario', function (Blueprint $table) {
             $table->id();
+            $table->string('email')->unique();
             $table->string('nome');
             $table->dateTime('data_nasc')->nullable();
             $table->boolean('ativo')->default(true);

@@ -8,6 +8,7 @@ create table genero(
 
 create table usuario(
 	id int unsigned not null auto_increment primary key,
+	email varchar(255) not null unique,
 	nome varchar(255) not null,
 	data_nasc datetime,
 	ativo tinyint(1) default 1,
