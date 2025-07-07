@@ -60,7 +60,7 @@ create table sobre(
 
 
 	user_id int unsigned not null ,
-	foreign key (user_id) references usuario(id),
+	foreign key (user_id) references usuario(id) ON DELETE CASCADE;,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp

@@ -11,3 +11,6 @@ Route::get('/', function(){
 
 Route::post('/usuario/store', [UsuarioController::class, 'store'])
     ->name('usuario.store');
+
+Route::delete('/usuario/delete', [UsuarioController::class, 'destroy'])
+->name('usuario.delete');

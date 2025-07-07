@@ -26,7 +26,9 @@ return new class extends Migration
             $table->decimal('quant_cigarros_por_dias', 10, 2);
             $table->integer('quant_cigarros_por_maco');
             $table->decimal('valor_maco', 15, 2)->nullable();
-            $table->foreignId('user_id')->constrained('usuario');
+            $table->foreignId('user_id')
+                  ->constrained('usuario')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

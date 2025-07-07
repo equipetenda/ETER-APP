@@ -91,4 +91,40 @@ class UsuarioController extends Controller
         }
     }
 
+    public function destroy(Request $request)
+    {
+        try{
+            $validated = $request->validate([
+                'id' => 'required|integer|min:1'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'data' => [],
+                'success' => '',
+                'error' => 'Erro ao deletar serviço ofertado',
+                'errorTracking' => $e->getMessage()
+            ], 400);
+        }
+
+        $usuario = Usuario::find($validated['id']);
+
+
+        if (!$usuario) {
+            return response()->json([
+                'data' => [],
+                'success' => '',
+                'error' => 'Usuário não encontrado'
+            ], 404);
+        }
+
+
+        $usuario->delete();
+
+        return response()->json([
+            'data' => [],
+            'success' => 'Usuário excluido com sucesso',
+            'error' => ''
+        ], 200);
+    }
+
 }
