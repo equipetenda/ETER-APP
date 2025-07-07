@@ -16,6 +16,7 @@ class Usuario extends Model
     protected $table = 'usuario';
 
     protected $fillable = [
+        'email',
         'nome',
         'data_nasc',
         'ativo',
@@ -54,7 +55,7 @@ class Usuario extends Model
         );
     }
 
-  
+
 
     public function postagens(): HasMany
     {

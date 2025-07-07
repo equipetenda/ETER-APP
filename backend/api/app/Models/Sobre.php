@@ -17,7 +17,7 @@ class Sobre extends Model
         'quando_deseja_parar_fumar',
         'motivo_parar_fumar',
         'medo_preocupacao_fumar',
-        'quando_começou_fumar',
+        'quando_comecou_fumar',
         'tentativas_parar_fumar',
         'motivos_desistencias',
         'data_inicio_fumar',

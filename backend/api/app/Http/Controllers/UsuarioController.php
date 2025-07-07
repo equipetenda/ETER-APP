@@ -14,17 +14,17 @@ class UsuarioController extends Controller
 
         try {
 
-            $validated = $request->validate([                
+            $validated = $request->validate([
                 'email' => 'required|email|max:255',
-                'nome' => 'required|string|min:3max:150|',
+                'nome' => 'required|string|min:3|max:150|',
                 'data_nasc' => 'required|date|date_format:Y-m-d',
-                'genero_id' => 'required|string|min:1',                
-                
+                'genero_id' => 'required|string|min:1',
+
                 'data_parar_fumar' => 'required|date|date_format:Y-m-d',
                 'quando_deseja_parar_fumar' => 'nullable|string|min:1',
                 'motivo_parar_fumar' => 'required|string|min:1|max:150',
                 'medo_preocupacao_fumar' => 'required|string|min:1|max:150',
-                'quando_começou_fumar' => 'required|string|min:1|max:150',
+                'quando_comecou_fumar' => 'required|string|min:1|max:150',
                 'tentativas_parar_fumar' => 'required|string|min:1|max:150',
                 'motivos_desistencias' => 'required|string|min:1|max:150',
                 'data_inicio_fumar' => 'required|date|date_format:Y-m-d',
@@ -35,29 +35,29 @@ class UsuarioController extends Controller
 
              DB::beginTransaction();
 
-            $usuario = Usuario::criar([                
+            $usuario = Usuario::create([
                 'email' => $validated['email'],
                 'nome' => $validated['nome'],
                 'data_nasc' => $validated['data_nasc'],
-                'genero_id' => $validated['genero_id']                
-            ]); 
+                'genero_id' => $validated['genero_id']
+            ]);
 
-            $sobre = Sobre::criar([  
-                
+            $sobre = Sobre::create([
+
                 'data_parar_fumar' => $validated['data_parar_fumar'],
                 'quando_deseja_parar_fumar' => $validated['quando_deseja_parar_fumar'],
                 'motivo_parar_fumar' => $validated['motivo_parar_fumar'],
                 'medo_preocupacao_fumar' => $validated['medo_preocupacao_fumar'],
-                'quando_começou_fumar' => $validated['quando_começou_fumar'],
+                'quando_comecou_fumar' => $validated['quando_comecou_fumar'],
                 'tentativas_parar_fumar' => $validated['tentativas_parar_fumar'],
                 'motivos_desistencias' => $validated['motivos_desistencias'],
                 'data_inicio_fumar' => $validated['data_inicio_fumar'],
                 'quant_cigarros_por_dias' => $validated['quant_cigarros_por_dias'],
                 'quant_cigarros_por_maco' => $validated['quant_cigarros_por_maco'],
                 'valor_maco' => $validated['valor_maco'],
-                
+
                 'user_id' => $usuario->id,
-            ]);            
+            ]);
 
 
             DB::commit();
@@ -68,7 +68,7 @@ class UsuarioController extends Controller
                 'errorTracking' => ''
             ], 200);
 
-         
+
 
         }catch(\Exception $e){
              DB::rollback();
@@ -87,7 +87,7 @@ class UsuarioController extends Controller
                 'error' => 'Não foi possivel cadastrar o usuário',
                 'errorTracking' => $e->getMessage(),
             ], 500);
-            
+
         }
     }
 
