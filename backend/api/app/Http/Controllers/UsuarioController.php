@@ -10,7 +10,55 @@ use App\Models\Sobre;
 
 class UsuarioController extends Controller
 {
-    public function store(Request $request){
+
+    public function getOne(Request $request)
+    {
+        $id = $request->route('id');
+
+
+
+        if (!is_numeric($id) || intval($id) <= 0) {
+            return response()->json([
+                'data' => [],
+                'success' => '',
+                'error' => 'Id de usuário inválido'
+            ], 400);
+        }
+
+
+       $usuario = Usuario::with([
+    'genero',
+    'sobre',
+    'postagens',
+    'vontadesFumar',
+    'fumei',
+    'usuarioConquistas.conquista',
+    // Carregue os relacionamentos necessários para o accessor 'amigos'
+    'amizadesEnviadas.amigo2',
+    'amizadesRecebidas.amigo1'
+])->find($id);
+
+
+
+        if (!$usuario) {
+            return response()->json([
+                'data' => [],
+                'success' => '',
+                'error' => 'Usuário não encontrado'
+            ], 404);
+        }
+
+
+        return response()->json([
+            'data' => $usuario,
+            'success' => 'Usuário encontrado com sucesso',
+            'error' => '',
+            'errorTracking' => ''
+        ], 200);
+    }
+
+    public function store(Request $request)
+    {
 
         try {
 

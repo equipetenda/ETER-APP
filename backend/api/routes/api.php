@@ -8,6 +8,8 @@ Route::get('/', function(){
     return response()->json(['message' => 'bem vindo ao eter']);
 });
 
+Route::get('/usuario/get-one/{id}', [UsuarioController::class, 'getOne'])
+        ->name('usuario.get-one');
 
 Route::post('/usuario/store', [UsuarioController::class, 'store'])
     ->name('usuario.store');
