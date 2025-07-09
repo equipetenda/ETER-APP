@@ -27,16 +27,16 @@ class UsuarioController extends Controller
 
 
        $usuario = Usuario::with([
-    'genero',
-    'sobre',
-    'postagens',
-    'vontadesFumar',
-    'fumei',
-    'usuarioConquistas.conquista',
-    // Carregue os relacionamentos necessários para o accessor 'amigos'
-    'amizadesEnviadas.amigo2',
-    'amizadesRecebidas.amigo1'
-])->find($id);
+        'genero',
+        'sobre',
+        'postagens',
+        'vontadesFumar',
+        'fumei',
+        'usuarioConquistas.conquista',
+        // Carregue os relacionamentos necessários para o accessor 'amigos'
+        'amizadesEnviadas.amigo2',
+        'amizadesRecebidas.amigo1'
+        ])->find($id);
 
 
 
