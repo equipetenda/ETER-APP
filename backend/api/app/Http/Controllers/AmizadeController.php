@@ -3,14 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\Usuario;
-use App\Models\Sobre;
+use App\Models\Amizade;
 
 class AmizadeController extends Controller
 {
 
+    public function getOneByUser(Request $request)
+    {
+
+        $id = $request->route('id');
+
+
+        if (!is_numeric($id) || intval($id) <= 0) {
+            return response()->json([
+                'data' => [],
+                'success' => '',
+                'error' => 'Id de usuário inválido'
+            ], 400);
+        }
+
+
+        $amizades = Amizade::with([
+            'amigo1:id,nome',
+            'amigo2:id,nome'
+        ])->where(function ($query) use ($id) {
+            $query->where('user_id_amigo1', $id)
+                  ->orWhere('user_id_amigo2', $id);
+        })->get();
+
+         if ($amizades->isEmpty()) {
+            return response()->json([
+                'data' => [],
+                'success' => '',
+                'error' => 'Nenhuma amizade encontrada'
+            ], 200);
+        }
+
+        $amizades->makeHidden(['user_id_amigo1', 'user_id_amigo2']);
+
+
+
+        return response()->json([
+            'data' => $amizades,
+            'success' => 'Amizade(s) encontrada(s) com sucesso',
+            'error' => ''
+        ], 200);
+    }
 
     public function store(Request $request)
     {
@@ -18,55 +56,20 @@ class AmizadeController extends Controller
         try {
 
             $validated = $request->validate([
-                'email' => 'required|email|max:255',
-                'nome' => 'required|string|min:3|max:150|',
-                'data_nasc' => 'required|date|date_format:Y-m-d',
-                'genero_id' => 'required|string|min:1',
-
-                'data_parar_fumar' => 'required|date|date_format:Y-m-d',
-                'quando_deseja_parar_fumar' => 'nullable|string|min:1',
-                'motivo_parar_fumar' => 'required|string|min:1|max:150',
-                'medo_preocupacao_fumar' => 'required|string|min:1|max:150',
-                'quando_comecou_fumar' => 'required|string|min:1|max:150',
-                'tentativas_parar_fumar' => 'required|string|min:1|max:150',
-                'motivos_desistencias' => 'required|string|min:1|max:150',
-                'data_inicio_fumar' => 'required|date|date_format:Y-m-d',
-                'quant_cigarros_por_dias' => 'required|integer|min:1',
-                'quant_cigarros_por_maco' => 'required|integer|min:1',
-                'valor_maco' => 'required|regex:/^\d+(\.\d{1,2})?$/|gt:0'
-            ]);
-
-             DB::beginTransaction();
-
-            $usuario = Usuario::create([
-                'email' => $validated['email'],
-                'nome' => $validated['nome'],
-                'data_nasc' => $validated['data_nasc'],
-                'genero_id' => $validated['genero_id']
-            ]);
-
-            $sobre = Sobre::create([
-
-                'data_parar_fumar' => $validated['data_parar_fumar'],
-                'quando_deseja_parar_fumar' => $validated['quando_deseja_parar_fumar'],
-                'motivo_parar_fumar' => $validated['motivo_parar_fumar'],
-                'medo_preocupacao_fumar' => $validated['medo_preocupacao_fumar'],
-                'quando_comecou_fumar' => $validated['quando_comecou_fumar'],
-                'tentativas_parar_fumar' => $validated['tentativas_parar_fumar'],
-                'motivos_desistencias' => $validated['motivos_desistencias'],
-                'data_inicio_fumar' => $validated['data_inicio_fumar'],
-                'quant_cigarros_por_dias' => $validated['quant_cigarros_por_dias'],
-                'quant_cigarros_por_maco' => $validated['quant_cigarros_por_maco'],
-                'valor_maco' => $validated['valor_maco'],
-
-                'user_id' => $usuario->id,
+                'user_id_amigo1' => 'required|integer|min:1',
+                'user_id_amigo2' => 'required|integer|min:1'
             ]);
 
 
-            DB::commit();
+            Amizade::create([
+                'user_id_amigo1' => $validated['user_id_amigo1'],
+                'user_id_amigo2' => $validated['user_id_amigo2']
+            ]);
+
+
             return response()->json([
                 'data' => [],
-                'success' => 'Usuário criado com sucesso',
+                'success' => 'Amizade criada com sucesso',
                 'error' => '',
                 'errorTracking' => ''
             ], 200);
@@ -74,20 +77,19 @@ class AmizadeController extends Controller
 
 
         }catch(\Exception $e){
-             DB::rollback();
 
             if($e->getCode() == 23000){
                 return response()->json([
                     'data' => [],
                     'success' => '',
-                    'error' => 'Usuário já cadastrado.',
+                    'error' => 'Amizade já cadastrada.',
                 ], 400);
             }
 
             return response()->json([
                 'data' => [],
                 'success' => '',
-                'error' => 'Não foi possivel cadastrar o usuário',
+                'error' => 'Não foi possivel criar a amizade',
                 'errorTracking' => $e->getMessage(),
             ], 500);
 
@@ -104,15 +106,15 @@ class AmizadeController extends Controller
             return response()->json([
                 'data' => [],
                 'success' => '',
-                'error' => 'Erro ao deletar serviço ofertado',
+                'error' => 'Erro ao excluir a amizade',
                 'errorTracking' => $e->getMessage()
             ], 400);
         }
 
-        $usuario = Usuario::find($validated['id']);
+        $amizade = Amizade::find($validated['id']);
 
 
-        if (!$usuario) {
+        if (!$amizade) {
             return response()->json([
                 'data' => [],
                 'success' => '',
@@ -121,11 +123,11 @@ class AmizadeController extends Controller
         }
 
 
-        $usuario->delete();
+        $amizade->delete();
 
         return response()->json([
             'data' => [],
-            'success' => 'Usuário excluido com sucesso',
+            'success' => 'Amizade excluida com sucesso',
             'error' => ''
         ], 200);
     }

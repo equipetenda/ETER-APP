@@ -32,10 +32,8 @@ class UsuarioController extends Controller
         'postagens',
         'vontadesFumar',
         'fumei',
-        'usuarioConquistas.conquista',
-        // Carregue os relacionamentos necessários para o accessor 'amigos'
-        'amizadesEnviadas.amigo2',
-        'amizadesRecebidas.amigo1'
+        'usuarioConquistas.conquista'
+
         ])->find($id);
 
 
@@ -171,7 +169,7 @@ class UsuarioController extends Controller
             return response()->json([
                 'data' => [],
                 'success' => '',
-                'error' => 'Erro ao deletar serviço ofertado',
+                'error' => 'Erro ao excluir o usuário',
                 'errorTracking' => $e->getMessage()
             ], 400);
         }
