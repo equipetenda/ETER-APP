@@ -12,6 +12,9 @@ Route::get('/', function(){
 Route::get('/usuario/get-one/{id}', [UsuarioController::class, 'getOne'])
         ->name('usuario.get-one');
 
+Route::get('/usuario/get-all', [UsuarioController::class, 'getAll'])
+        ->name('usuario.get-all');
+
 Route::post('/usuario/store', [UsuarioController::class, 'store'])
     ->name('usuario.store');
 

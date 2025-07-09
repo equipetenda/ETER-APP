@@ -9,7 +9,7 @@ use App\Models\Genero;
 class GeneroController extends Controller
 {
 
-    public function getAll(Request $request)
+    public function getAll()
     {
 
 

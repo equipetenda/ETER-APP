@@ -8,76 +8,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Usuario;
 use App\Models\Sobre;
 
-class UsuarioController extends Controller
+class AmizadeController extends Controller
 {
 
-    public function getOne(Request $request)
-    {
-        $id = $request->route('id');
-
-
-
-        if (!is_numeric($id) || intval($id) <= 0) {
-            return response()->json([
-                'data' => [],
-                'success' => '',
-                'error' => 'Id de usuário inválido'
-            ], 400);
-        }
-
-
-       $usuario = Usuario::with([
-        'genero',
-        'sobre',
-        'postagens',
-        'vontadesFumar',
-        'fumei',
-        'usuarioConquistas.conquista',
-        // Carregue os relacionamentos necessários para o accessor 'amigos'
-        'amizadesEnviadas.amigo2',
-        'amizadesRecebidas.amigo1'
-        ])->find($id);
-
-
-
-        if (!$usuario) {
-            return response()->json([
-                'data' => [],
-                'success' => '',
-                'error' => 'Usuário não encontrado'
-            ], 404);
-        }
-
-
-        return response()->json([
-            'data' => $usuario,
-            'success' => 'Usuário encontrado com sucesso',
-            'error' => '',
-            'errorTracking' => ''
-        ], 200);
-    }
-
-    public function getAll()
-    {
-
-       $usuarios = Usuario::all()->values();
-
-         if ($usuarios->isEmpty()) {
-            return response()->json([
-                'data' => [],
-                'success' => '',
-                'error' => 'Nenhum usuário encontrado'
-            ], 200);
-        }
-
-        $usuarios->makeHidden(['data_nasc', 'ativo', 'genero_id', 'amigos']);
-
-        return response()->json([
-            'data' => $usuarios,
-            'success' => 'Usuário(s) encontrado(s) com sucesso',
-            'error' => ''
-        ], 200);
-    }
 
     public function store(Request $request)
     {
