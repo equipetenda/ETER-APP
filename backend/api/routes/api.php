@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\AmizadeController;
+use App\Http\Controllers\ConquistaController;
 
 Route::get('/', function(){
     return response()->json(['message' => 'bem vindo ao eter']);
@@ -28,7 +29,7 @@ Route::delete('/usuario/delete', [UsuarioController::class, 'destroy'])
 ->name('usuario.delete');
 
 // AMIZADE
-Route::get('/amizade/get-all-by-user/{id}', [AmizadeController::class, 'getOneByUser'])
+Route::get('/amizade/get-all-by-user/{id}', [AmizadeController::class, 'getAllByUser'])
         ->name('amizade.get-all-by-user');
 
 Route::post('/amizade/store', [AmizadeController::class, 'store'])
@@ -36,6 +37,17 @@ Route::post('/amizade/store', [AmizadeController::class, 'store'])
 
 Route::delete('/amizade/delete', [AmizadeController::class, 'destroy'])
 ->name('amizade.delete');
+
+
+// CONQUISTAS
+Route::get('/conquista/get-all-by-user/{id}', [ConquistaController::class, 'getAllByUser'])
+        ->name('conquista.get-all-by-user');
+
+Route::post('/conquista/store', [ConquistaController::class, 'store'])
+    ->name('conquista.store');
+
+Route::get('/conquista/get-all', [ConquistaController::class, 'getAll'])
+        ->name('conquista.get-all');
 
 
 

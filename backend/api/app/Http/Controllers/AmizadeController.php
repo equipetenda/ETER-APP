@@ -8,7 +8,7 @@ use App\Models\Amizade;
 class AmizadeController extends Controller
 {
 
-    public function getOneByUser(Request $request)
+    public function getAllByUser(Request $request)
     {
 
         $id = $request->route('id');
