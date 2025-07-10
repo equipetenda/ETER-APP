@@ -1,6 +1,6 @@
 create table genero(
 	id int unsigned not null auto_increment primary key,
-	nome varchar(255) not null,
+	nome varchar(255) not null unique,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -71,7 +71,7 @@ create table sobre(
 create table conquista(
 	id int unsigned not null auto_increment primary key,
 
-	nome varchar(255) not null ,
+	nome varchar(255) not null unique,
 	img varchar(255),
 
 	created_at datetime default current_timestamp,
@@ -108,7 +108,7 @@ create table diario(
 create table sintoma(
 	id int unsigned not null auto_increment primary key,
 
-	nome varchar(255) not null,
+	nome varchar(255) not null unique,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -132,7 +132,7 @@ create table diario_sintoma(
 create table emocao(
 	id int unsigned not null auto_increment primary key,
 
-	nome varchar(255) not null ,
+	nome varchar(255) not null unique,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -156,7 +156,7 @@ create table diario_emocao(
 create table sentimento(
 	id int unsigned not null auto_increment primary key,
 
-	nome varchar(255) not null ,
+	nome varchar(255) not null unique,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -192,7 +192,7 @@ create table texto(
 create table contexto(
 	id int unsigned not null auto_increment primary key,
 
-	nome varchar(255) not null,
+	nome varchar(255) not null unique,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -201,7 +201,7 @@ create table contexto(
 create table estrategia(
 	id int unsigned not null auto_increment primary key,
 
-	nome varchar(255) not null,
+	nome varchar(255) not null unique,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
