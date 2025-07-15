@@ -308,3 +308,22 @@ INSERT INTO `eter`.`genero` (`nome`) VALUES
 ('Não-binário'),
 ('Prefiro não responder'),
 ('Outro');
+
+
+INSERT INTO `eter`.`sintoma` (`nome`) VALUES
+  ('Ansiedade intensa'),
+  ('Dificuldade de concentração'),
+  ('Tontura ou vertigem'),
+  ('Fadiga extrema'),
+  ('Dores de cabeça'),
+  ('Suor excessivo');
+
+INSERT INTO `eter`.`emocao` (`nome`) VALUES
+  ('Feliz'),
+  ('Animado'),
+  ('Nervoso'),
+  ('Ansioso'),
+  ('Deprimido'),
+  ('Entediado'),
+  ('Zangado'),
+  ('Enjoado');

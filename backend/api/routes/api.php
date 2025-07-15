@@ -8,12 +8,14 @@ use App\Http\Controllers\AmizadeController;
 use App\Http\Controllers\ConquistaController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\SintomaController;
+use App\Http\Controllers\EmocaoController;
 
 Route::get('/', function(){
     return response()->json(['message' => 'bem vindo ao eter']);
 });
 
-// SOBRE
+// GENERO
 Route::get('/genero/get-all', [GeneroController::class, 'getAll'])
         ->name('genero.get-all');
 
@@ -81,3 +83,12 @@ Route::put('/comentario/update', [ComentarioController::class, 'update'])
 
 Route::delete('/comentario/delete', [ComentarioController::class, 'destroy'])
         ->name('comentario.delete');
+
+// SINTOMA
+Route::get('/sintoma/get-all', [SintomaController::class, 'getAll'])
+        ->name('sintoma.get-all');
+
+
+// EMOÇÃO
+Route::get('/emocao/get-all', [EmocaoController::class, 'getAll'])
+        ->name('emocao.get-all');
