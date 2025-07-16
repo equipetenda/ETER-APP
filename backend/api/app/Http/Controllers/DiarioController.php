@@ -4,22 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Diario;
+use App\Models\Texto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class DiarioController extends Controller
 {
 
-    /**
-     * Busca todos os registros de diário de um usuário específico, com suas relações aninhadas.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id O ID do usuário.
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function getAllByUser(Request $request, $id)
     {
-        // Validação básica para o ID do usuário
+
         if (!is_numeric($id) || intval($id) <= 0) {
             return response()->json([
                 'data' => [],
@@ -28,9 +23,6 @@ class DiarioController extends Controller
             ], 400);
         }
 
-        // Busca os diários do usuário, carregando as relações.
-        // CORREÇÃO: A relação 'vontadesFumar' agora é aninhada dentro de 'textos'.
-        // O with foi ajustado para 'textos.vontadesFumar' para carregar corretamente.
         $diarios = Diario::where('usuario_id', $id)
             ->with([
                 'sintomas',
@@ -58,15 +50,10 @@ class DiarioController extends Controller
         ], 200);
     }
 
-    /**
-     * Armazena um novo registro de diário completo, com todas as suas relações.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(Request $request)
+
+    public function storeHome(Request $request)
     {
-        // Inicia uma transação para garantir que ou tudo é salvo, ou nada é.
+
         DB::beginTransaction();
 
         try {
@@ -81,15 +68,9 @@ class DiarioController extends Controller
                 'sentimentos' => 'sometimes|array',
                 'sentimentos.*' => 'integer|exists:sentimento,id',
 
-                // Validação para textos e suas vontades de fumar aninhadas
-                'textos' => 'sometimes|array',
-                'textos.*.conteudo' => 'required|string|max:65535', // text type
-                'textos.*.vontades_fumar' => 'sometimes|array',
-                'textos.*.vontades_fumar.*.vontade_escala' => 'required|integer|min:1|max:5',
-                'textos.*.vontades_fumar.*.estrategia_escala' => 'required|integer|min:1|max:5',
-                'textos.*.vontades_fumar.*.sentimento_id' => 'required|integer|exists:sentimento,id',
-                'textos.*.vontades_fumar.*.contexto_id' => 'required|integer|exists:contexto,id',
-                'textos.*.vontades_fumar.*.estrategia_id' => 'required|integer|exists:estrategia,id',
+                'sentimentos' => 'sometimes|array',
+                'textos.*.conteudo' => 'nullable|string|max:65535',
+
             ]);
 
 
@@ -98,7 +79,6 @@ class DiarioController extends Controller
                 'escala_confianca' => $validated['escala_confianca'],
             ]);
 
-            // 2. Associa as relações Many-to-Many (sintomas, emoções, sentimentos)
             if (!empty($validated['sintomas'])) {
                 $diario->sintomas()->attach($validated['sintomas']);
             }
@@ -109,33 +89,15 @@ class DiarioController extends Controller
                 $diario->sentimentos()->attach($validated['sentimentos']);
             }
 
-            //Lógica para criar textos e suas vontades de fumar associadas
-            if (!empty($validated['textos'])) {
-                foreach ($validated['textos'] as $textoData) {
-                    // Cria o texto associado ao diário
-                    $texto = $diario->textos()->create([
-                        'conteudo' => $textoData['conteudo']
-                    ]);
 
-                    // Se houver vontades de fumar para este texto, cria-as
-                    if (!empty($textoData['vontades_fumar'])) {
-                        foreach ($textoData['vontades_fumar'] as $vontadeData) {
-                             // Cria a vontade de fumar, associando o ID do texto e o ID do usuário
-                             $texto->vontadesFumar()->create([
-                                'vontade_escala' => $vontadeData['vontade_escala'],
-                                'estrategia_escala' => $vontadeData['estrategia_escala'],
-                                'sentimento_id' => $vontadeData['sentimento_id'],
-                                'contexto_id' => $vontadeData['contexto_id'],
-                                'estrategia_id' => $vontadeData['estrategia_id'],
-                                'usuario_id' => $validated['usuario_id'], // Pega o ID do usuário principal
-                                // 'texto_id' é preenchido automaticamente pela relação
-                             ]);
-                        }
-                    }
-                }
+            if (!empty($validated['textos'])) {
+                Texto::create([
+                'diario_id' => $diario->id,
+                'conteudo' => $validated['textos'][0]['conteudo']
+                ]);
             }
 
-            
+
             DB::commit();
 
             return response()->json([

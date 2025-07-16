@@ -318,7 +318,7 @@ INSERT INTO `eter`.`sintoma` (`nome`) VALUES
   ('Dores de cabeça'),
   ('Suor excessivo');
 
-INSERT INTO `eter`.`emocao` (`nome`) VALUES
+INSERT INTO `eter`.`sentimento` (`nome`) VALUES
   ('Feliz'),
   ('Animado'),
   ('Nervoso'),
@@ -327,3 +327,19 @@ INSERT INTO `eter`.`emocao` (`nome`) VALUES
   ('Entediado'),
   ('Zangado'),
   ('Enjoado');
+
+  INSERT INTO `eter`.`emocao` (`nome`) VALUES
+  ('Satisfação'),
+  ('Gratidão'),
+  ('Paz'),
+  ('Bem-estar'),
+  ('Entusiasmo'),
+  ('Realização'),
+
+    INSERT INTO `eter`.`estrategia` (`nome`) VALUES
+  ('Eu me motivo'),
+  ('Deixo passar'),
+  ('Respiro'),
+  ('Fumo'),
+
+

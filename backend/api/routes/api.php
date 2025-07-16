@@ -10,6 +10,9 @@ use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\SintomaController;
 use App\Http\Controllers\EmocaoController;
+use App\Http\Controllers\SentimentoController;
+use App\Http\Controllers\EstrategiaController;
+use App\Http\Controllers\DiarioController;
 
 Route::get('/', function(){
     return response()->json(['message' => 'bem vindo ao eter']);
@@ -92,3 +95,15 @@ Route::get('/sintoma/get-all', [SintomaController::class, 'getAll'])
 // EMOÇÃO
 Route::get('/emocao/get-all', [EmocaoController::class, 'getAll'])
         ->name('emocao.get-all');
+
+
+// SENTIMENTO
+Route::get('/sentimento/get-all', [SentimentoController::class, 'getAll'])
+        ->name('sentimento.get-all');
+
+// ESTRATEGIA
+Route::get('/estrategia/get-all', [EstrategiaController::class, 'getAll'])
+        ->name('estrategia.get-all');
+
+Route::post('/diario/store-home', [DiarioController::class, 'storeHome'])
+        ->name('diario.store-home');
