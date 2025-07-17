@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('sentimento', function (Blueprint $table) {
+        Schema::create('inicio', function (Blueprint $table) {
             $table->id();
-            $table->string('nome')->unique();
+            $table->foreignId('diario_id')->constrained('diario')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('sentimento');
+        Schema::dropIfExists('inicio');
     }
 };

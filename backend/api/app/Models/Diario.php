@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Diario extends Model
 {
@@ -14,7 +15,8 @@ class Diario extends Model
     protected $table = 'diario';
 
     protected $fillable = [
-        'escala_confianca',
+        'usuario_id',
+        'tipo',
     ];
 
     protected $hidden = [
@@ -22,28 +24,9 @@ class Diario extends Model
         'updated_at',
     ];
 
-    protected $casts = [
-        'escala_confianca' => 'integer',
-    ];
-
-    public function sintomas(): BelongsToMany
+    public function usuario(): BelongsTo
     {
-        return $this->belongsToMany(
-            Sintoma::class,
-            'diario_sintoma',
-            'diario_id',
-            'sintoma_id'
-        )->withTimestamps();
-    }
-
-    public function emocoes(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Emocao::class,
-            'diario_emocao',
-            'diario_id',
-            'emocao_id'
-        )->withTimestamps();
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 
     public function sentimentos(): BelongsToMany
@@ -56,13 +39,23 @@ class Diario extends Model
         )->withTimestamps();
     }
 
-    public function textos(): HasMany
+    public function texto(): HasOne
     {
-        return $this->hasMany(Texto::class, 'diario_id');
+        return $this->hasOne(Texto::class, 'diario_id');
     }
 
-    public function vontadesFumar(): HasMany
+    public function vontadeFumar(): HasOne
     {
-        return $this->hasMany(VontadeFumar::class, 'diario_id');
+        return $this->hasOne(VontadeFumar::class, 'diario_id');
+    }
+
+    public function fumei(): HasOne
+    {
+        return $this->hasOne(Fumei::class, 'diario_id');
+    }
+
+    public function inicio(): HasOne
+    {
+        return $this->hasOne(Inicio::class, 'diario_id');
     }
 }

@@ -60,7 +60,7 @@ create table sobre(
 
 
 	user_id int unsigned not null ,
-	foreign key (user_id) references usuario(id) ON DELETE CASCADE;,
+	foreign key (user_id) references usuario(id) ON DELETE CASCADE,
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -98,7 +98,22 @@ create table usuario_conquista(
 create table diario(
 	id int unsigned not null auto_increment primary key,
 
-	escala_confianca tinyint unsigned not null check( escala_confianca between 1 and 5),
+    -- Coluna que identifica o tipo de diário
+    tipo enum('INICIO', 'VONTADE_FUMAR', 'FUMEI') not null,
+
+    usuario_id int unsigned not null,
+    foreign key (usuario_id) references usuario(id) ON DELETE CASCADE,
+
+	created_at datetime default current_timestamp,
+	updated_at datetime default current_timestamp on update current_timestamp
+);
+
+-- INICIO É UM DIARIO
+create table inicio(
+	id int unsigned not null auto_increment primary key,
+
+    diario_id int unsigned not null ,
+	foreign key (diario_id) references diario(id),
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -109,21 +124,20 @@ create table sintoma(
 	id int unsigned not null auto_increment primary key,
 
 	nome varchar(255) not null unique,
-
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
 );
 
-create table diario_sintoma(
+create table inicio_sintoma(
 	id int unsigned not null auto_increment primary key,
 
 	sintoma_id int unsigned not null ,
 	foreign key (sintoma_id) references sintoma(id),
 
-	diario_id int unsigned not null ,
-	foreign key (diario_id) references diario(id),
+	inicio_id int unsigned not null ,
+	foreign key (inicio_id) references inicio(id),
 
-	constraint unique_diario_sintoma unique(sintoma_id, diario_id),
+	constraint unique_inicio_sintoma unique(sintoma_id, inicio_id),
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -138,16 +152,16 @@ create table emocao(
 	updated_at datetime default current_timestamp on update current_timestamp
 );
 
-create table diario_emocao(
+create table inicio_emocao(
 	id int unsigned not null auto_increment primary key,
 
 	emocao_id int unsigned not null ,
 	foreign key (emocao_id) references emocao(id),
 
-	diario_id int unsigned not null ,
-	foreign key (diario_id) references diario(id),
+	inicio_id int unsigned not null ,
+	foreign key (inicio_id) references inicio(id),
 
-	constraint unique_diario_emocao unique(emocao_id, diario_id),
+	constraint unique_inicio_emocao unique(emocao_id, inicio_id),
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -157,6 +171,7 @@ create table sentimento(
 	id int unsigned not null auto_increment primary key,
 
 	nome varchar(255) not null unique,
+
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -176,6 +191,7 @@ create table diario_sentimento(
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
 );
+
 
 create table texto(
 	id int unsigned not null auto_increment primary key,
@@ -207,28 +223,21 @@ create table estrategia(
 	updated_at datetime default current_timestamp on update current_timestamp
 );
 
-
+-- É UM DIARIO
 create table vontade_fumar(
 	id int unsigned not null auto_increment primary key,
 
 	vontade_escala tinyint unsigned not null check( vontade_escala between 1 and 5),
 	estrategia_escala tinyint unsigned not null check( estrategia_escala between 1 and 5),
 
-	sentimento_id int unsigned not null ,
-	foreign key (sentimento_id) references sentimento(id),
-
-	usuario_id int unsigned not null ,
-	foreign key (usuario_id) references usuario(id),
+	diario_id int unsigned not null ,
+	foreign key (diario_id) references diario(id),
 
 	contexto_id int unsigned not null ,
 	foreign key (contexto_id) references contexto(id),
 
 	estrategia_id int unsigned not null ,
 	foreign key (estrategia_id) references estrategia(id),
-
-	texto_id int unsigned not null ,
-	foreign key (texto_id) references texto(id),
-
 
 	created_at datetime default current_timestamp,
 	updated_at datetime default current_timestamp on update current_timestamp
@@ -251,6 +260,7 @@ create table amigo_avisado(
 	updated_at datetime default current_timestamp on update current_timestamp
 );
 
+-- É UM DIARIO
 create table fumei(
 	id int unsigned not null auto_increment primary key,
 
@@ -258,11 +268,9 @@ create table fumei(
 
 	impulso_escala tinyint unsigned not null check( impulso_escala between 1 and 5),
 
-	sentimento_id int unsigned not null ,
-	foreign key (sentimento_id) references sentimento(id),
 
-	usuario_id int unsigned not null ,
-	foreign key (usuario_id) references usuario(id),
+	diario_id int unsigned not null ,
+	foreign key (diario_id) references diario(id),
 
 	contexto_id int unsigned not null ,
 	foreign key (contexto_id) references contexto(id),
@@ -318,6 +326,7 @@ INSERT INTO `eter`.`sintoma` (`nome`) VALUES
   ('Dores de cabeça'),
   ('Suor excessivo');
 
+/*
 INSERT INTO `eter`.`sentimento` (`nome`) VALUES
   ('Feliz'),
   ('Animado'),
@@ -327,19 +336,34 @@ INSERT INTO `eter`.`sentimento` (`nome`) VALUES
   ('Entediado'),
   ('Zangado'),
   ('Enjoado');
+*/
 
-  INSERT INTO `eter`.`emocao` (`nome`) VALUES
+INSERT INTO `eter`.`emocao` (`nome`) VALUES
   ('Satisfação'),
   ('Gratidão'),
   ('Paz'),
   ('Bem-estar'),
   ('Entusiasmo'),
-  ('Realização'),
+  ('Realização');
 
-    INSERT INTO `eter`.`estrategia` (`nome`) VALUES
+INSERT INTO `eter`.`estrategia` (`nome`) VALUES
+  ('Avisar um amigo'),
   ('Eu me motivo'),
   ('Deixo passar'),
   ('Respiro'),
-  ('Fumo'),
+  ('Fumo');
+
+INSERT INTO `eter`.`contexto` (`nome`) VALUES
+('Estou bebendo um pouco de álcool'),
+('Estou indo pra cama'),
+('Estou fazendo uma pausa'),
+('Estou com fumantes'),
+('Estou num carro'),
+('Estou bebendo um café'),
+('Acabei de comer'),
+('Estou no telefone'),
+('Tive relações sexuais'),
+('Bebi uma xícara de chá');
+
 
 

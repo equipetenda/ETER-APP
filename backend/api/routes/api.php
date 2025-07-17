@@ -13,6 +13,7 @@ use App\Http\Controllers\EmocaoController;
 use App\Http\Controllers\SentimentoController;
 use App\Http\Controllers\EstrategiaController;
 use App\Http\Controllers\DiarioController;
+use App\Http\Controllers\ContextoController;
 
 Route::get('/', function(){
     return response()->json(['message' => 'bem vindo ao eter']);
@@ -105,5 +106,23 @@ Route::get('/sentimento/get-all', [SentimentoController::class, 'getAll'])
 Route::get('/estrategia/get-all', [EstrategiaController::class, 'getAll'])
         ->name('estrategia.get-all');
 
+// CONTEXTO
+Route::get('/contexto/get-all', [ContextoController::class, 'getAll'])
+        ->name('contexto.get-all');
+
+
+// DIARIO
+
+Route::get('/diario/get-all-by-user/{id}', [DiarioController::class, 'getAllByUser'])
+        ->name('diario.get-all-by-user');
+
+
 Route::post('/diario/store-home', [DiarioController::class, 'storeHome'])
         ->name('diario.store-home');
+
+
+Route::post('/diario/store-want-smoke', [DiarioController::class, 'storeWantSmoke'])
+        ->name('diario.store-want-smoke');
+
+Route::post('/diario/store-smoked', [DiarioController::class, 'storeSmoked'])
+        ->name('diario.store-smoked');

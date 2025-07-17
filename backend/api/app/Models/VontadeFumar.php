@@ -15,11 +15,9 @@ class VontadeFumar extends Model
     protected $fillable = [
         'vontade_escala',
         'estrategia_escala',
-        'sentimento_id',
-        'usuario_id',
+        'diario_id',
         'contexto_id',
         'estrategia_id',
-        'texto_id',
     ];
 
     protected $hidden = [
@@ -32,14 +30,9 @@ class VontadeFumar extends Model
         'estrategia_escala' => 'integer',
     ];
 
-    public function sentimento(): BelongsTo
+    public function diario(): BelongsTo
     {
-        return $this->belongsTo(Sentimento::class, 'sentimento_id');
-    }
-
-    public function usuario(): BelongsTo
-    {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->belongsTo(Diario::class, 'diario_id');
     }
 
     public function contexto(): BelongsTo
@@ -50,10 +43,5 @@ class VontadeFumar extends Model
     public function estrategia(): BelongsTo
     {
         return $this->belongsTo(Estrategia::class, 'estrategia_id');
-    }
-
-    public function texto(): BelongsTo
-    {
-        return $this->belongsTo(Texto::class, 'texto_id');
     }
 }

@@ -9,10 +9,14 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('texto', function (Blueprint $table) {
+        Schema::create('inicio_sintoma', function (Blueprint $table) {
             $table->id();
-            $table->text('conteudo');
-            $table->foreignId('diario_id')->constrained('diario');
+
+            $table->foreignId('sintoma_id')->constrained('sintoma');
+            $table->foreignId('inicio_id')->constrained('inicio');
+
+            $table->unique(['sintoma_id', 'inicio_id'], 'unique_inicio_sintoma');
+
             $table->timestamps();
         });
     }
@@ -20,6 +24,6 @@ return new class extends Migration
     
     public function down(): void
     {
-        Schema::dropIfExists('texto');
+        Schema::dropIfExists('inicio_sintoma');
     }
 };

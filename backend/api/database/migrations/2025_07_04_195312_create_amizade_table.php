@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up(): void
     {
         Schema::create('amizade', function (Blueprint $table) {
@@ -28,11 +24,7 @@ return new class extends Migration
         DB::statement('ALTER TABLE amizade ADD CONSTRAINT check_amigo CHECK (user_id_amigo1 < user_id_amigo2)');
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('amizade');

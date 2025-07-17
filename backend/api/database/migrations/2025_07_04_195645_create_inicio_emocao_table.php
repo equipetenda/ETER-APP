@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('diario_emocao', function (Blueprint $table) {
+        Schema::create('inicio_emocao', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('emocao_id')->constrained('emocao');
-            $table->foreignId('diario_id')->constrained('diario');
+            $table->foreignId('inicio_id')->constrained('inicio');
 
-            $table->unique(['emocao_id', 'diario_id'], 'unique_diario_emocao');
+            $table->unique(['emocao_id', 'inicio_id'], 'unique_inicio_emocao');
 
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('diario_emocao');
+        Schema::dropIfExists('inicio_emocao');
     }
 };
