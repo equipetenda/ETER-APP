@@ -50,7 +50,7 @@ create table sobre(
 	quando_deseja_parar_fumar enum('Agora', 'Em breve', 'Eu ja parei', 'Não sei') default 'Não sei' ,
 	motivo_parar_fumar varchar(150) not null,
 	medo_preocupacao_fumar varchar(150) not null,
-	quando_começou_fumar varchar(150) not null,
+	quando_comecou_fumar varchar(150) not null,
 	tentativas_parar_fumar varchar(150) not null,
 	motivos_desistencias varchar(150) not null,
 	data_inicio_fumar datetime not null,
@@ -326,7 +326,7 @@ INSERT INTO `eter`.`sintoma` (`nome`) VALUES
   ('Dores de cabeça'),
   ('Suor excessivo');
 
-/*
+
 INSERT INTO `eter`.`sentimento` (`nome`) VALUES
   ('Feliz'),
   ('Animado'),
@@ -336,7 +336,7 @@ INSERT INTO `eter`.`sentimento` (`nome`) VALUES
   ('Entediado'),
   ('Zangado'),
   ('Enjoado');
-*/
+
 
 INSERT INTO `eter`.`emocao` (`nome`) VALUES
   ('Satisfação'),
@@ -364,6 +364,12 @@ INSERT INTO `eter`.`contexto` (`nome`) VALUES
 ('Estou no telefone'),
 ('Tive relações sexuais'),
 ('Bebi uma xícara de chá');
+
+
+INSERT INTO `eter`.`conquista` (`nome`) VALUES
+  ('Tempo'),
+  ('Smile'),
+  ('Fumo');
 
 
 

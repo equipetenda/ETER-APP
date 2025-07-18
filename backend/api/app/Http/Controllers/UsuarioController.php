@@ -110,7 +110,7 @@ class UsuarioController extends Controller
                 'genero_id' => $validated['genero_id']
             ]);
 
-            $sobre = Sobre::create([
+            Sobre::create([
 
                 'data_parar_fumar' => $validated['data_parar_fumar'],
                 'quando_deseja_parar_fumar' => $validated['quando_deseja_parar_fumar'],

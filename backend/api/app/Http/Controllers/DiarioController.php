@@ -59,8 +59,10 @@ class DiarioController extends Controller
                 'emocoes.*' => 'integer|exists:emocao,id',
                 'sentimentos' => 'sometimes|array',
                 'sentimentos.*' => 'integer|exists:sentimento,id',
-                'conteudo' => 'nullable|string',
+                'textos.*.conteudo' => 'nullable|string',
             ]);
+
+           
 
             $diario = Diario::create([
                 'usuario_id' => $validated['usuario_id'],
@@ -78,10 +80,10 @@ class DiarioController extends Controller
             if (!empty($validated['sentimentos'])) {
                 $diario->sentimentos()->attach($validated['sentimentos']);
             }
-            if (!empty($validated['conteudo'])) {
+            if (!empty($validated['textos'])) {
                 Texto::create([
                     'diario_id' => $diario->id,
-                    'conteudo' => $validated['conteudo'],
+                    'conteudo' => $validated['textos'][0]['conteudo'],
                 ]);
             }
 
