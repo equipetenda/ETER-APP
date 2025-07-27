@@ -4,8 +4,27 @@ import { TextInput } from '../../../../../components/TextInput/TextInput';
 import { useRegisterForm } from '../RegisterContext';
 import { FormRegisterLayout } from '../../../../../components/FormRegisterLayout/FormRegisterLayout';
 
+import { UserService } from '../../../../../services/UserService';
+import { RegisterFormData } from '../../../../../types/RegisterFormData';
+import { genderConversion } from '../../../../../utilities/gender';
+
 export const CigaretteQuantStep10 = () => {
   const { formData, updateField, setStep } = useRegisterForm();
+
+  const submitForm = async (step:number)=>{  
+
+    try {      
+      let formDataUpdate:RegisterFormData = genderConversion(formData)
+      const response = await UserService.create(formDataUpdate)  
+      
+      setStep(step);    
+    } catch (error) {
+      alert(error)      
+      
+    }
+
+  };
+
 
   return (
     <FormRegisterLayout>
@@ -26,8 +45,9 @@ export const CigaretteQuantStep10 = () => {
         />
 
         <Box mt="306px" />
-        <PrimaryButton onClick={() => setStep(10)} label="Iniciar Jornada" />
+        <PrimaryButton onClick={() => submitForm(10)} label="Iniciar Jornada" />
       </Box>
     </FormRegisterLayout>
   );
 };
+
