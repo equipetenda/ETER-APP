@@ -12,10 +12,10 @@ export const WelcomeStep2 = () => {
       <Box display="flex" flexDirection="column" alignItems="left" gap="12px">
         <img src={IconIntroStep2} alt="Ilustração" width={120} />
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '32px', color: '#fff', fontFamily: 'Poppins' }}>
-          Bem vindo ao Éter!
+        Sabemos que parar de fumar pode ser desafiador.
         </Typography>
         <Typography sx={{ color: '#fff', textAlign: 'left', fontFamily: 'Poppins' }}>
-          Parar de fumar é um grande desafio, mas você não está só. Cada pequeno passo conta e estamos prontos para ajudar você nessa jornada.
+        Mas com o Breathly essa jornada pode ser mais leve, a chave do sucesso é a motivação constante.        
         </Typography>
         <Typography sx={{ color: '#fff', textAlign:  'left',  fontFamily: 'Poppins' }}>
           Vamos juntos?

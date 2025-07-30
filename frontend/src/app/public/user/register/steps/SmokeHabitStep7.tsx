@@ -24,7 +24,7 @@ export const SmokeHabitStep7 = () => {
             onClick={() => handleSelect(option)}
             sx={{
               backgroundColor: '#fff',
-              color: '#000',
+              color: '#656FDF',
               borderRadius: '8px',
               padding: '16px',
               fontFamily: 'Poppins',

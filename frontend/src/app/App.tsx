@@ -1,30 +1,26 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './public/login';
-import { Register } from './public/user/register/Register';
-import { RegisterFormProvider } from './public/user/register/RegisterContext';
-import { AppLayout } from '../components/AppLayout/AppLayout';
+// App.tsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AppLayout } from "../components/AppLayout/AppLayout";
+import { RegisterFormProvider } from "./public/user/register/RegisterContext";
+import { RegisterForm } from './private/user/register-form';
 
+import { Register } from "./public/user/register/Register";
+import { HomeScreen } from "./private/user/HomeScreen";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <AppLayout>
-      <Routes>
-        {/* Tela de cadastro como padrão */}
-        <Route 
-          path="/" 
-          element={
-            <RegisterFormProvider>
-              <Register />
-            </RegisterFormProvider>
-          } 
-        />
+      <RegisterFormProvider> {/* Envolve tudo */}
+        <AppLayout>
+          <Routes>
+            <Route path="/" element={<Navigate to="/register" replace />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={<HomeScreen />} />
+            <Route path="/user/register-form" element={<RegisterForm />} />
 
-        {/* Login disponível em uma rota separada */}
-        <Route path="/login" element={<Login />} />
-      </Routes>
-      </AppLayout>
+          </Routes>
+        </AppLayout>
+      </RegisterFormProvider>
     </Router>
   );
 };

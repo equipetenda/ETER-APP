@@ -30,7 +30,7 @@ export const QuitIntentStep5 = () => {
             onClick={() => handleOptionSelect(option)}
             sx={{
               backgroundColor: '#fff',
-              color: '#000',
+              color: '#656FDF',
               borderRadius: '8px',
               padding: '16px',
               fontWeight: '500',

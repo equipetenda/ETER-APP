@@ -26,7 +26,7 @@ export const CigaretteQuantStep10 = () => {
         />
 
         <Box mt="306px" />
-        <PrimaryButton onClick={() => setStep(10)} label="Iniciar Jornada" />
+        <PrimaryButton onClick={() => setStep(10)} label="Continuar" />
       </Box>
     </FormRegisterLayout>
   );

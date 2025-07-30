@@ -2,10 +2,14 @@ import { Typography, Box } from '@mui/material';
 import { PrimaryButton } from '../../../../../components/Button/Button';
 import { useRegisterForm } from '../RegisterContext';
 import { FormRegisterLayout } from '../../../../../components/FormRegisterLayout/FormRegisterLayout';
-import JourneyGif from '../../../../../assets/winking-face.gif'; // ajuste o caminho conforme seu projeto
+import JourneyGif from '../../../../../assets/winking-face.gif'; 
+import { useNavigate } from 'react-router-dom';
+
 
 export const FinalStep = () => {
   const { setStep } = useRegisterForm();
+  const navigate = useNavigate();
+
 
   return (
     <FormRegisterLayout>
@@ -43,9 +47,12 @@ export const FinalStep = () => {
 
         <PrimaryButton 
           onClick={() => {
+            localStorage.setItem('registerFormData', JSON.stringify(FormData));
+            navigate('/home');
           }} 
           label="Iniciar Jornada!"
         />
+
       </Box>
     </FormRegisterLayout>
   );

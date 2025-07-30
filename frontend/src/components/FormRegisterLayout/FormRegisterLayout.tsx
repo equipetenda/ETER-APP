@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { PropsWithChildren } from 'react';
-import bg from '../../assets/bg-form-register.png';
+import bg from '../../assets/bg-register.png';
 
 export const FormRegisterLayout = ({ children }: PropsWithChildren) => {
   return (
