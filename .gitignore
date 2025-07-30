@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+
+# Configurações do Editor
+.vscode/
+
+# Arquivos do Sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de Log
+*.log
+
+# Arquivos de Ambiente
+.env
+
+# Diretórios de Build
+dist/
+build/
+
+# Ignorar o package-lock.json
+package-lock.json

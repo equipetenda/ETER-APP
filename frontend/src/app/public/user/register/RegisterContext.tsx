@@ -1,22 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-type RegisterFormData = {
-  email: string;
-  nome: string;
-   data_nasc: string;
-  genero_id: string;
-  data_parar_fumar: string; //quitDate
-  quando_deseja_parar_fumar: string; //quitintent
-  motivo_parar_fumar: string;
-  medo_preocupacao_fumar: string[];
-  quando_comecou_fumar: string;
-  tentativas_parar_fumar: string; //SmokeHabitStep7
-  motivos_desistencias: string;
-  data_inicio_fumar: string;
-  quant_cigarros_por_dias: number; //SmokeHabitStep8
-  quant_cigarros_por_maco: number; //SmokeHabitStep9
-  valor_maco: string; //Cigarette
-};
+import { RegisterFormData } from "../../../../types/RegisterFormData";
 
 type RegisterFormContextType = {
   formData: RegisterFormData;
@@ -28,16 +12,16 @@ type RegisterFormContextType = {
 const defaultValues: RegisterFormData = {
   email: "",
   nome: "",
-  data_nasc: "",
+  data_nasc: "2025-07-02",
   genero_id: "",
   data_parar_fumar: "",
   quando_deseja_parar_fumar: "",
-  motivo_parar_fumar: "",
-  medo_preocupacao_fumar: [],
-  quando_comecou_fumar: "",
+  motivo_parar_fumar: "motivo_parar_fumar",
+  medo_preocupacao_fumar: "medo_preocupacao_fumar",
+  quando_comecou_fumar: "quando_comecou_fumar",
   tentativas_parar_fumar: "",
-  motivos_desistencias: "",
-  data_inicio_fumar: "",
+  motivos_desistencias: "motivos_desistencias",
+  data_inicio_fumar: "2025-07-02",
   quant_cigarros_por_dias: 0,
   quant_cigarros_por_maco: 0,
   valor_maco: "",
