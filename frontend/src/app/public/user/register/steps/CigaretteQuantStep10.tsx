@@ -17,8 +17,8 @@ export const CigaretteQuantStep10 = () => {
     try {
       const formDataUpdate: RegisterFormData = genderConversion(formData);
       await UserService.create(formDataUpdate);
-
-      navigate('/home'); // Redireciona após sucesso
+      setStep(10)
+      
     } catch (error) {
       alert('Erro ao enviar dados: ' + error);
     }
@@ -46,7 +46,7 @@ export const CigaretteQuantStep10 = () => {
         />
 
         <Box mt="306px" />
-        <PrimaryButton onClick={submitForm} label="Iniciar Jornada" />
+        <PrimaryButton onClick={submitForm} label="Continuar" />
       </Box>
     </FormRegisterLayout>
   );
