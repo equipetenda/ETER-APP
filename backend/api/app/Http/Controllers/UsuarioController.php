@@ -11,32 +11,30 @@ use App\Models\Sobre;
 class UsuarioController extends Controller
 {
 
-    public function getOne(Request $request)
+     public function getOne(Request $request)
     {
-        $id = $request->route('id');
+        $identifier = $request->route('id');
 
+        $query = Usuario::with([
+            'genero',
+            'sobre',
+            'postagens',
+            'vontadesFumar',
+            'fumei',
+            'usuarioConquistas.conquista'
+        ]);
 
-
-        if (!is_numeric($id) || intval($id) <= 0) {
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+            $usuario = $query->where('email', $identifier)->first();
+        } elseif (is_numeric($identifier) && intval($identifier) > 0) {
+            $usuario = $query->find($identifier);
+        } else {
             return response()->json([
                 'data' => [],
                 'success' => '',
-                'error' => 'Id de usuário inválido'
+                'error' => 'Identificador de usuário inválido'
             ], 400);
         }
-
-
-       $usuario = Usuario::with([
-        'genero',
-        'sobre',
-        'postagens',
-        'vontadesFumar',
-        'fumei',
-        'usuarioConquistas.conquista'
-
-        ])->find($id);
-
-
 
         if (!$usuario) {
             return response()->json([
@@ -45,7 +43,6 @@ class UsuarioController extends Controller
                 'error' => 'Usuário não encontrado'
             ], 404);
         }
-
 
         return response()->json([
             'data' => $usuario,

@@ -3,19 +3,19 @@ import { FormStepData } from './types';
 
 export const useRegisterSteps = () => {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState<FormStepData>({
+  const [formDataRegisterSteps, setFormDataRegisterSteps] = useState<FormStepData>({
     motivo: '',
     sintomas: [],
     confianca: 0,
   });
 
   const updateData = (data: Partial<FormStepData>) => {
-    setFormData((prev) => ({ ...prev, ...data }));
+    setFormDataRegisterSteps((prev) => ({ ...prev, ...data }));
   };
 
   return {
     step,
-    formData,
+    formDataRegisterSteps,
     setStep,
     updateData,
   };

@@ -6,11 +6,13 @@ import { RegisterForm } from './private/user/register-form';
 
 import { Register } from "./public/user/register/Register";
 import { HomeScreen } from "./private/user/HomeScreen";
+import { DiaryHomeProvider } from "./public/user/diary-home/DiaryHomeContext";
 
 const App: React.FC = () => {
   return (
     <Router>
       <RegisterFormProvider> {/* Envolve tudo */}
+        <DiaryHomeProvider> {/* Envolve tudo */}
         <AppLayout>
           <Routes>
             <Route path="/" element={<Navigate to="/register" replace />} />
@@ -20,6 +22,7 @@ const App: React.FC = () => {
 
           </Routes>
         </AppLayout>
+      </DiaryHomeProvider>
       </RegisterFormProvider>
     </Router>
   );

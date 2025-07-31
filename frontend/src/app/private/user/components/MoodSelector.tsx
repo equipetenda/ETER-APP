@@ -1,10 +1,10 @@
 import { Box, Typography, IconButton, Chip, Fade } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // 1. Importe o useEffect
 import { useNavigate } from 'react-router-dom';
 
 import AddIcon from '../../../../assets/add.png';
 import ArrowIcon from '../../../../assets/arrow-right.png';
-import BackArrowIcon from '../../../../assets/arrow_back_white.png'; // Ícone de voltar
+import BackArrowIcon from '../../../../assets/arrow_back_white.png';
 
 import HappyIcon from '../../../../assets/mood/slightly-smiling-face.gif';
 import ExcitedIcon from '../../../../assets/mood/grinning-face-with-big-eyes.gif';
@@ -14,16 +14,8 @@ import SadIcon from '../../../../assets/mood/worried-face.gif';
 import BoredIcon from '../../../../assets/mood/expressionless-face.gif';
 import AngryIcon from '../../../../assets/mood/angry-face.gif';
 import SickIcon from '../../../../assets/mood/nauseated-face.gif';
-
-type MoodKey =
-  | 'feliz'
-  | 'animado'
-  | 'nervoso'
-  | 'ansioso'
-  | 'deprimido'
-  | 'entediado'
-  | 'zangado'
-  | 'enjoado';
+import { useDiaryHome } from '../../../public/user/diary-home/DiaryHomeContext';
+import { MoodKey } from '../../../../types/MoodKey';
 
 const moodList: { key: MoodKey; label: string; icon: string }[] = [
   { key: 'feliz', label: 'Feliz', icon: HappyIcon },
@@ -52,18 +44,27 @@ export const MoodSelector = () => {
   const [selectedDetails, setSelectedDetails] = useState<string[]>([]);
   const navigate = useNavigate();
 
+  const { formDataDiaryHome } = useDiaryHome();
+  
+  // 2. Use useEffect para sincronizar a atualização do contexto com a mudança do estado
+  useEffect(() => {
+    // Este código agora executa *depois* que 'selectedDetails' foi atualizado.
+    formDataDiaryHome.emocoes = selectedDetails;
+  }, [selectedDetails, formDataDiaryHome]); // O array de dependências garante que isso só rode quando necessário.
+
+
   const handleDetailToggle = (emotion: string) => {
+    // A única responsabilidade desta função agora é atualizar o estado.
     setSelectedDetails((prev) =>
-      prev.includes(emotion)
+      prev.includes(emotion) 
         ? prev.filter((e) => e !== emotion)
-        : prev.length < 3
-        ? [...prev, emotion]
-        : prev
+        : prev.length < 3 ? [...prev, emotion] : prev
     );
+    
   };
 
   return (
-    <Box px={2} sx={{ position: 'relative', minHeight: '200px' }}> {/* Diminui o minHeight para 200px */}
+    <Box px={2} sx={{ position: 'relative', minHeight: '200px' }}>
       {/* Box das emoções principais */}
       <Box
         sx={{
@@ -90,6 +91,9 @@ export const MoodSelector = () => {
               onClick={() => {
                 setSelectedMood(key);
                 setSelectedDetails([]);
+                
+                // 3. Corrigido: Evita mutação direta e garante que apenas o humor atual seja definido.
+                formDataDiaryHome.sentimentos = [key];
               }}
               sx={{
                 cursor: 'pointer',
@@ -125,8 +129,11 @@ export const MoodSelector = () => {
           }}
         >
           <Box display="flex" alignItems="center" gap={1} mb={1}>
-            {/* Botão de voltar alinhado na mesma linha que a seta de avançar */}
-            <IconButton onClick={() => setSelectedMood(null)} sx={{ color: 'white', mr: 1 }}>
+            <IconButton 
+              onClick={() => {
+                setSelectedMood(null)}
+              } 
+              sx={{ color: 'white', mr: 1 }}>
               <img src={BackArrowIcon} alt="Voltar" width={24} height={24} />
             </IconButton>
             <img src={AddIcon} alt="Add" width={20} height={20} />
@@ -152,7 +159,7 @@ export const MoodSelector = () => {
                 />
               ))}
           </Box>
-
+                  
           <Box display="flex" justifyContent="flex-end">
             <IconButton color="inherit" size="large" onClick={() => navigate('/user/register-form')}>
               <img src={ArrowIcon} alt="Avançar" width={24} height={24} />
