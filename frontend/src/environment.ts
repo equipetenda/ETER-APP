@@ -6,8 +6,8 @@ export class Environment{
   constructor(){
     this._production = true
     this._url = [
-        "http://127.0.0.1:8000/api/",
-        "https://eter.dirudidi.com/api/",        
+        "http://127.0.0.1:8000/backend/api/",
+        "https://eter.dirudidi.com/backend/api/",        
       ]    
   }
 
